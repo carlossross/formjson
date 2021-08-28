@@ -1,0 +1,96 @@
+<mat-card>
+  <h1>FormJSON generator</h1>
+
+  <mat-card-content>
+    <form [formGroup]="myForm">
+
+      <div style="margin-bottom: 10px;">
+        <mat-form-field appearance="fill">
+          <mat-label>Input Type</mat-label>
+          <mat-select [formControl]="type">
+            <mat-option *ngFor="let item of inputTypeOptions" [value]="item">{{ item }}</mat-option>
+          </mat-select>
+          <mat-hint>The input type</mat-hint>
+        </mat-form-field>
+      </div>
+
+      <div style="margin-bottom: 10px;">
+        <mat-checkbox formControlName="showTable" class="example-margin">Show table</mat-checkbox>
+        <mat-checkbox formControlName="showAddButton" class="example-margin">Show add button</mat-checkbox>
+      </div>
+
+      <div style="margin-bottom: 10px;">
+        <button mat-raised-button color="primary" type="button" (click)="addControl(type.value)">Add control</button>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <div style="padding: 10px;" formArrayName="controls">
+        <mat-card
+          *ngFor="let control of controlsArray.controls; let i = index"
+          style="margin-bottom: 10px;">
+
+          <mat-card-content [formGroupName]="i" style="margin-bottom: 20px; display: flex; flex-wrap: wrap; justify-content: space-between;">
+
+            <div>
+              <mat-form-field appearance="fill">
+                <mat-label>Control name</mat-label>
+                <input formControlName="name" matInput placeholder="Control name">
+                <mat-hint>Name/id of control</mat-hint>
+              </mat-form-field>
+            </div>
+
+            <div>
+              <mat-form-field appearance="fill">
+                <mat-label>Control label</mat-label>
+                <input formControlName="label" matInput placeholder="Control label">
+                <mat-hint>The control label</mat-hint>
+              </mat-form-field>
+            </div>
+
+            <div *ngIf="control.get('inputType')?.value != 'formGroup'">
+              <mat-form-field appearance="fill">
+                <mat-label>Control Placeholder</mat-label>
+                <input formControlName="placeHolder" matInput placeholder="Control placeholder">
+                <mat-hint>The control placeholder</mat-hint>
+              </mat-form-field>
+            </div>
+
+            <div>
+              <mat-form-field appearance="fill">
+                <mat-label>Input format</mat-label>
+                <mat-select formControlName="format">
+                  <mat-option *ngFor="let item of inputFormat" [value]="item">{{ item }}</mat-option>
+                </mat-select>
+                <mat-hint>The format how the data will show in the table</mat-hint>
+              </mat-form-field>
+            </div>
+
+          </mat-card-content>
+
+          <div>
+            <button mat-raised-button color="warn" type="button" (click)="deleteControl(i)">Remove control</button>
+          </div>
+
+        </mat-card>
+
+      </div>
+
+    </form>
+
+    <div>
+      <button mat-raised-button color="accent" type="button" (click)="minify()">Minify JSON</button>
+    </div>
+
+  </mat-card-content>
+</mat-card>
+
+<span>Form value</span>
+<pre>{{ myForm.value | json }}</pre>
+
+<div style="width: 80%;">
+  <div>Minified</div>
+  <div>{{ minifiedJSON }}</div>
+</div>
+
+
