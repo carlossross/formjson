@@ -23,7 +23,8 @@ export class FormjsonComponent implements OnInit {
     'text',
     'currency', //For money format
     'flat-percent', // Use always with deductible input
-    'boolean' //use it if you need to show 'Yes/No in the table
+    'boolean', //use it if you need to show 'Yes/No in the table
+    'date'
   ]
 
   myForm: FormGroup = this.fb.group({
@@ -84,7 +85,7 @@ export class FormjsonComponent implements OnInit {
 
 
     if (inputType == 'formGroup') {
-      //For now formGroup mean the deductible, using an radio button for amount or percent and an input for the quantity (always use flat-percent format)
+      //For now formGroup means the deductible, using a radio button for amount or percent and an input for the quantity (always use flat-percent format)
       return this.fb.group({
         name: 'deductible',
         label: 'Deductible',
